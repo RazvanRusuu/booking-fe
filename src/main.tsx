@@ -9,6 +9,7 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import Layout from "./Layout";
+import Register from "./pages/Register";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,7 +25,7 @@ const router = createBrowserRouter(
       <Route index path="/" element={<>Home</>} />
       <Route index path="/search" element={<>Search</>} />
 
-      <Route path="/register" element={<>register</>} />
+      <Route path="/register" element={<Register />} />
       <Route path="/sign-in" element={<>sign-in</>} />
     </Route>
   )
