@@ -1,6 +1,11 @@
 import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { signIn as mutationFn } from "../../api-client/apiClient";
 
-interface FormData {
+import Input from "../components/Input";
+import { CustomError } from "../Error/CustomFieldsError";
+
+export interface FormDataRegister {
   email: string;
   firstName: string;
   lastName: string;
@@ -9,11 +14,31 @@ interface FormData {
 }
 
 const Register = () => {
+  const { mutate } = useMutation<void, CustomError | Error, FormDataRegister>({
+    mutationFn,
+    onError: (err) => {
+      if (err instanceof CustomError) {
+        err.errors.forEach((err) => {
+          setError(err.path, { message: err.msg });
+        });
+        return;
+      }
+
+      //   toast with error
+      console.log(err);
+    },
+    onSuccess: () => {
+      console.log("success");
+    },
+    retry: false,
+  });
+
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<FormDataRegister>({
     defaultValues: {
       email: "",
       firstName: "",
@@ -23,10 +48,8 @@ const Register = () => {
     },
   });
 
-  console.log(errors);
-
-  const onSubmit = (data: FormData) => {
-    console.log(data);
+  const onSubmit = (data: FormDataRegister) => {
+    mutate(data);
   };
 
   return (
@@ -34,67 +57,69 @@ const Register = () => {
       <form className="" onSubmit={handleSubmit(onSubmit)}>
         <h2 className="font-bold text-2xl mb-6">Create an account</h2>
         <div className="flex flex-col md:flex-row gap-6">
-          <label className="font-bold flex flex-col flex-1 text-gray-600">
-            First Name
-            <input
-              className="rounded-md border border-gray-200 font-normal focus-visible:border-gray-500"
-              type="text"
-              {...register("firstName", {
-                required: "This field is required",
-              })}
-            />
-          </label>
-          <label className="font-bold flex flex-1 flex-col text-gray-600">
-            Last Name
-            <input
-              className="rounded-md border border-gray-200 font-normal"
-              type="text"
-              {...register("lastName", {
-                required: "This field is required",
-              })}
-            />
-          </label>
+          <Input
+            name="firstName"
+            type="text"
+            label="First Name"
+            register={register}
+            errors={errors.firstName?.message}
+            options={{ required: "This field is required" }}
+          />
+          <Input
+            name="lastName"
+            type="text"
+            label="Last Name"
+            register={register}
+            errors={errors.lastName?.message}
+            options={{ required: "This field is required" }}
+          />
         </div>
-        <label className="font-bold flex flex-1 flex-col text-gray-600">
-          Email
-          <input
-            className="rounded-md border border-gray-200 font-normal"
-            type="email"
-            {...register("email", {
-              required: "This field is required",
-            })}
-          />
-        </label>
-        <label className="font-bold flex flex-1 flex-col text-gray-600">
-          Password
-          <input
-            className="rounded-md border border-gray-200"
-            type="password"
-            {...register("password", {
-              required: "This field is required",
-              minLength: 6,
-            })}
-          />
-        </label>
-        <label className="font-bold flex flex-1 flex-col text-gray-600">
-          Confirm Password
-          <input
-            className="rounded-md border border-gray-200"
-            type="password"
-            {...register("confirmPassword", {
-              minLength: {
-                value: 6,
-                message: "Password must be 6 characters or long",
-              },
-              validate: (value, frormValues) => {
-                return (
-                  value !== frormValues.password && "Password do not match"
-                );
-              },
-            })}
-          />
-        </label>
-        <button>Create an account</button>
+        <Input
+          name="email"
+          type="email"
+          label="Email"
+          register={register}
+          errors={errors.email?.message}
+          options={{ required: "This field is required" }}
+        />
+        <Input
+          name="password"
+          type="password"
+          label="password"
+          register={register}
+          errors={errors.password?.message}
+          options={{
+            minLength: {
+              value: 6,
+              message: "This field must have 6 characters or long",
+            },
+            validate: (value) => {
+              return value ? true : "This field is required";
+            },
+          }}
+        />
+        <Input
+          name="confirmPassword"
+          type="password"
+          label="Confirm Password"
+          register={register}
+          errors={errors.confirmPassword?.message}
+          options={{
+            minLength: {
+              value: 6,
+              message: "This field must have 6 characters or long",
+            },
+            validate: (value, formValues) => {
+              if (!value) return "This field is required";
+              const passwordsMatch = value === formValues.password;
+              console.log("Passwords Match:", passwordsMatch);
+              return passwordsMatch ? true : "Passwords do not match";
+            },
+          }}
+        />
+        <button className="mt-4 bg-blue-600 text-white rounded-sm py-2 px-1 font-bold">
+          Create an account
+        </button>
       </form>
     </div>
   );
