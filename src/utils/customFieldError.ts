@@ -1,4 +1,4 @@
-import { FormDataRegister } from ".././pages/Register";
+import { FormDataRegister } from "../pages/Register";
 
 type ErrorType = {
   msg: string;

@@ -1,4 +1,4 @@
-import { CustomError } from "../src/Error/CustomFieldsError";
+import { CustomError } from "../src/utils/customFieldError";
 import { FormDataRegister } from "../src/pages/Register";
 
 export const signIn = async (data: FormDataRegister) => {
@@ -15,8 +15,6 @@ export const signIn = async (data: FormDataRegister) => {
   );
 
   const body = await response.json();
-
-  console.log(body);
 
   if (!response.ok) {
     if (body.fieldErrors) {

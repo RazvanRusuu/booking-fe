@@ -3,7 +3,9 @@ import { useMutation } from "@tanstack/react-query";
 import { signIn as mutationFn } from "../../api-client/apiClient";
 
 import Input from "../components/Input";
-import { CustomError } from "../Error/CustomFieldsError";
+import { CustomError } from "../utils/customFieldError";
+import { useNavigate } from "react-router-dom";
+import { registerTemplate } from "./utilis/registerTemplate";
 
 export interface FormDataRegister {
   email: string;
@@ -14,6 +16,7 @@ export interface FormDataRegister {
 }
 
 const Register = () => {
+  const navigate = useNavigate();
   const { mutate } = useMutation<void, CustomError | Error, FormDataRegister>({
     mutationFn,
     onError: (err) => {
@@ -29,6 +32,7 @@ const Register = () => {
     },
     onSuccess: () => {
       console.log("success");
+      navigate("/");
     },
     retry: false,
   });
@@ -51,72 +55,28 @@ const Register = () => {
   const onSubmit = (data: FormDataRegister) => {
     mutate(data);
   };
+  type Name = keyof FormDataRegister;
 
   return (
     <div className="container mx-auto">
       <form className="" onSubmit={handleSubmit(onSubmit)}>
         <h2 className="font-bold text-2xl mb-6">Create an account</h2>
-        <div className="flex flex-col md:flex-row gap-6">
-          <Input
-            name="firstName"
-            type="text"
-            label="First Name"
-            register={register}
-            errors={errors.firstName?.message}
-            options={{ required: "This field is required" }}
-          />
-          <Input
-            name="lastName"
-            type="text"
-            label="Last Name"
-            register={register}
-            errors={errors.lastName?.message}
-            options={{ required: "This field is required" }}
-          />
+        <div className="flex flex-col gap-6 max-w-72">
+          {registerTemplate.map((field) => {
+            const name: Name = field.name;
+            return (
+              <Input
+                key={field.name}
+                register={register}
+                name={field.name as keyof FormDataRegister}
+                label={field.label}
+                validation={field.validation}
+                errors={errors[name]?.message}
+              />
+            );
+          })}
         </div>
-        <Input
-          name="email"
-          type="email"
-          label="Email"
-          register={register}
-          errors={errors.email?.message}
-          options={{ required: "This field is required" }}
-        />
-        <Input
-          name="password"
-          type="password"
-          label="password"
-          register={register}
-          errors={errors.password?.message}
-          options={{
-            minLength: {
-              value: 6,
-              message: "This field must have 6 characters or long",
-            },
-            validate: (value) => {
-              return value ? true : "This field is required";
-            },
-          }}
-        />
-        <Input
-          name="confirmPassword"
-          type="password"
-          label="Confirm Password"
-          register={register}
-          errors={errors.confirmPassword?.message}
-          options={{
-            minLength: {
-              value: 6,
-              message: "This field must have 6 characters or long",
-            },
-            validate: (value, formValues) => {
-              if (!value) return "This field is required";
-              const passwordsMatch = value === formValues.password;
-              console.log("Passwords Match:", passwordsMatch);
-              return passwordsMatch ? true : "Passwords do not match";
-            },
-          }}
-        />
+
         <button className="mt-4 bg-blue-600 text-white rounded-sm py-2 px-1 font-bold">
           Create an account
         </button>
