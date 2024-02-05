@@ -2,13 +2,13 @@ import { createContext, useContext, useState } from "react";
 
 type ToastMessage = {
   message: string;
-  type: "ERROR" | "SUCCESS";
+  type: "error" | "success";
   duration?: number;
 };
 
 type TAppContext = {
   toast: Pick<ToastMessage, "message" | "type"> | null;
-  showToast: (toastMessag: ToastMessage) => void;
+  showToast: (toastMessage: ToastMessage) => void;
   isLoggedIn: false;
 };
 
@@ -23,6 +23,10 @@ export const AppContextProvider = ({
 
   const showToast = (toastMessage: ToastMessage) => {
     setToast(toastMessage);
+
+    setTimeout(() => {
+      setToast(null);
+    }, toastMessage.duration || 3000);
   };
 
   const contextValue: TAppContext = {

@@ -1,8 +1,9 @@
 import { FormDataRegister } from "../pages/Register";
+import { IFormDataSignIn } from "../pages/SignIn";
 
 type ErrorType = {
   msg: string;
-  path: keyof FormDataRegister;
+  path: string;
 };
 
 export class CustomError extends Error {

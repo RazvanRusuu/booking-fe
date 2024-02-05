@@ -1,11 +1,12 @@
-import { useForm } from "react-hook-form";
+import { UseFormRegister, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { signIn as mutationFn } from "../../api-client/apiClient";
+import { register as mutationFn } from "../../api-client/apiClient";
 
 import Input from "../components/Input";
 import { CustomError } from "../utils/customFieldError";
 import { useNavigate } from "react-router-dom";
 import { registerTemplate } from "./utilis/registerTemplate";
+import { useAppContext } from "../context/AppContext";
 
 export interface FormDataRegister {
   email: string;
@@ -16,22 +17,22 @@ export interface FormDataRegister {
 }
 
 const Register = () => {
+  const { showToast } = useAppContext();
   const navigate = useNavigate();
   const { mutate } = useMutation<void, CustomError | Error, FormDataRegister>({
     mutationFn,
     onError: (err) => {
       if (err instanceof CustomError) {
         err.errors.forEach((err) => {
-          setError(err.path, { message: err.msg });
+          setError(err.path as keyof FormDataRegister, { message: err.msg });
         });
         return;
       }
 
-      //   toast with error
-      console.log(err);
+      showToast({ message: err.message, type: "error" });
     },
     onSuccess: () => {
-      console.log("success");
+      showToast({ message: "Successfully register", type: "success" });
       navigate("/");
     },
     retry: false,
@@ -55,7 +56,6 @@ const Register = () => {
   const onSubmit = (data: FormDataRegister) => {
     mutate(data);
   };
-  type Name = keyof FormDataRegister;
 
   return (
     <div className="container mx-auto">
@@ -63,21 +63,25 @@ const Register = () => {
         <h2 className="font-bold text-2xl mb-6">Create an account</h2>
         <div className="flex flex-col gap-6 max-w-72">
           {registerTemplate.map((field) => {
-            const name: Name = field.name;
+            const name = field.name;
             return (
               <Input
                 key={field.name}
-                register={register}
+                register={register as UseFormRegister<FormDataRegister>}
                 name={field.name as keyof FormDataRegister}
                 label={field.label}
                 validation={field.validation}
                 errors={errors[name]?.message}
+                type={field.type}
               />
             );
           })}
         </div>
 
-        <button className="mt-4 bg-blue-600 text-white rounded-sm py-2 px-1 font-bold">
+        <button
+          type="submit"
+          className="mt-4 bg-blue-600 text-white rounded-sm py-2 px-1 font-bold"
+        >
           Create an account
         </button>
       </form>

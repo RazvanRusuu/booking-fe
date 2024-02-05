@@ -2,13 +2,14 @@ import { InputHTMLAttributes } from "react";
 import { UseFormRegister, RegisterOptions } from "react-hook-form";
 import { FormDataRegister } from "../pages/Register";
 import ErrorField from "./ErrorField";
+import { IFormDataSignIn } from "../pages/SignIn";
 
 export interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   errors?: string | undefined;
-  register: UseFormRegister<FormDataRegister>;
+  register: UseFormRegister<FormDataRegister | IFormDataSignIn>;
   name: "email" | "firstName" | "lastName" | "password" | "confirmPassword";
   label: string;
-  validation?: RegisterOptions<FormDataRegister>;
+  validation?: RegisterOptions<FormDataRegister | IFormDataSignIn>;
 }
 
 const Input: React.FC<IInputProps> = ({
@@ -19,7 +20,6 @@ const Input: React.FC<IInputProps> = ({
   errors,
   ...rest
 }) => {
-  console.log(errors);
   return (
     <label className="font-bold flex flex-1 flex-col text-gray-600">
       {label}

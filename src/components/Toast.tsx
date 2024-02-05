@@ -1,34 +1,37 @@
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "../utils/utils";
 
-const toastVariants = cva(`fixed top-10 rounded-md shadow-md transition-all`, {
-  variants: {
-    variant: {
-      success: "bg-green-500",
-      error: "bg-red-500",
+const toastVariants = cva(
+  `fixed rounded-md shadow-md py-2 px-2 transition-all grid place-items-center`,
+  {
+    variants: {
+      variant: {
+        success: "bg-green-500",
+        error: "bg-red-500",
+      },
+      size: {
+        lg: "w-1/2",
+        md: "w-1/4",
+        sm: "w-30",
+      },
+      position: {
+        top: "top-5 right-4",
+        center: "mx-auto",
+        bottom: "bottom-5",
+      },
     },
-    size: {
-      lg: "w-1/2",
-      md: "w-1/4",
-      sm: "w-30",
+    defaultVariants: {
+      size: "sm",
+      position: "top",
     },
-    position: {
-      top: "top-5",
-      center: "mx-auto",
-      bottom: "bottom-5",
-    },
-  },
-  defaultVariants: {
-    size: "sm",
-    position: "top",
-  },
-});
+  }
+);
 
 export type ToastProps = VariantProps<typeof toastVariants> & {
-  delay: number;
-  class: string;
-  children: React.ReactNode;
-  className: string;
+  delay?: number;
+  children?: React.ReactNode;
+  className?: string;
+  message: string;
 };
 
 const Toast: React.FC<ToastProps> = ({
@@ -36,11 +39,12 @@ const Toast: React.FC<ToastProps> = ({
   size,
   position,
   className,
-  children,
+  message,
 }) => {
+  console.log(variant);
   return (
     <div className={cn(toastVariants({ variant, size, position, className }))}>
-      {children}
+      <span className="text-white">{message}</span>
     </div>
   );
 };
