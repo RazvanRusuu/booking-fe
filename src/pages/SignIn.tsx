@@ -1,4 +1,4 @@
-import { UseFormRegister, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { signInTemplate } from "./utilis/signInTemplate";
 import Input from "../components/Input";
 import { useMutation } from "@tanstack/react-query";
@@ -58,15 +58,15 @@ const SignIn = () => {
         <h2 className="font-bold text-2xl mb-6">Create an account</h2>
         <div className="flex flex-col gap-6 max-w-72">
           {signInTemplate.map((field) => {
-            const name = field.name;
+            const name = field.name as keyof IFormDataSignIn;
             return (
               <Input
                 key={field.name}
-                register={register as UseFormRegister<IFormDataSignIn>}
+                register={register}
                 name={field.name as keyof IFormDataSignIn}
                 label={field.label}
                 validation={field.validation}
-                errors={errors[name]?.message as string}
+                errors={errors[name]?.message}
                 type={field.type}
               />
             );

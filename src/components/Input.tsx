@@ -1,25 +1,29 @@
 import { InputHTMLAttributes } from "react";
-import { UseFormRegister, RegisterOptions } from "react-hook-form";
-import { FormDataRegister } from "../pages/Register";
+import {
+  UseFormRegister,
+  RegisterOptions,
+  FieldValues,
+  Path,
+} from "react-hook-form";
 import ErrorField from "./ErrorField";
-import { IFormDataSignIn } from "../pages/SignIn";
 
-export interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface IInputProps<T extends FieldValues>
+  extends InputHTMLAttributes<HTMLInputElement> {
   errors?: string | undefined;
-  register: UseFormRegister<FormDataRegister | IFormDataSignIn>;
-  name: "email" | "firstName" | "lastName" | "password" | "confirmPassword";
+  register: UseFormRegister<T>;
+  name: Path<T>;
   label: string;
-  validation?: RegisterOptions<FormDataRegister | IFormDataSignIn>;
+  validation?: RegisterOptions<FieldValues>;
 }
 
-const Input: React.FC<IInputProps> = ({
+const Input = <T extends FieldValues>({
   register,
   name,
   label,
   validation,
   errors,
   ...rest
-}) => {
+}: IInputProps<T>) => {
   return (
     <label className="font-bold flex flex-1 flex-col text-gray-600">
       {label}

@@ -1,26 +1,11 @@
 import { FormDataRegister } from "../Register";
-
-type ValidationFunction = (
-  value: string,
-  formValues: FormDataRegister
-) => boolean | string;
-
-export type ValidationRule = {
-  value: number;
-  message: string;
-};
-
-export type ValidationConfig = {
-  required?: string;
-  minLength?: ValidationRule;
-  validate?: ValidationFunction;
-};
+import { RegisterOptions } from "react-hook-form";
 
 export type RegisterField = {
   name: keyof FormDataRegister;
   type: string;
   label: string;
-  validation?: ValidationConfig;
+  validation?: RegisterOptions;
 };
 
 export type RegisterTemplate = RegisterField[];
@@ -73,10 +58,9 @@ export const registerTemplate: RegisterTemplate = [
         value: 6,
         message: "This field must have 6 characters or more",
       },
-      validate: (value: string, formValues: FormDataRegister) => {
+      validate: (value: string, formValues: any) => {
         if (!value) return "This field is required";
         const passwordsMatch = value === formValues.password;
-        console.log("Passwords Match:", passwordsMatch);
         return passwordsMatch ? true : "Passwords do not match";
       },
     },

@@ -1,4 +1,4 @@
-import { UseFormRegister, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { register as mutationFn } from "../../api-client/apiClient";
 
@@ -63,11 +63,11 @@ const Register = () => {
         <h2 className="font-bold text-2xl mb-6">Create an account</h2>
         <div className="flex flex-col gap-6 max-w-72">
           {registerTemplate.map((field) => {
-            const name = field.name;
+            const name = field.name as keyof FormDataRegister;
             return (
               <Input
                 key={field.name}
-                register={register as UseFormRegister<FormDataRegister>}
+                register={register}
                 name={field.name as keyof FormDataRegister}
                 label={field.label}
                 validation={field.validation}
