@@ -20,7 +20,7 @@ export const router = createBrowserRouter(
       errorElement={<div>ErrorElement</div>}
     >
       <Route index path="/" element={<>Home</>} />
-      <Route index path="/search" element={<>Search</>} />
+      <Route path="/search" element={<>Search</>} />
 
       <Route path="/register" element={<Register />} />
       <Route path="/sign-in" element={<SignIn />} />

@@ -49,3 +49,32 @@ export const signIn = async (data: IFormDataSignIn) => {
 
   return body;
 };
+
+export const getUser = async () => {
+  const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Something went wrong with authentication");
+  }
+
+  const body = await response.json();
+
+  return body;
+};
+
+export const logout = async () => {
+  const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
+    method: "POST",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Error during sign out");
+  }
+
+  const body = await response.json();
+
+  return body;
+};

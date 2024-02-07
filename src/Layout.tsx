@@ -5,10 +5,16 @@ import Toast from "./components/Toast";
 import { useAppContext } from "./context/AppContext";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  const { toast } = useAppContext();
+  const { toast, showToast } = useAppContext();
   return (
     <div className="flex flex-col min-h-screen">
-      {toast && <Toast variant={toast.type} {...toast} />}
+      {toast && (
+        <Toast
+          onCLose={() => showToast(null)}
+          variant={toast.type}
+          {...toast}
+        />
+      )}
       <Header />
       <Hero />
       <div className="container mx-auto py-10 flex-1">{children}</div>

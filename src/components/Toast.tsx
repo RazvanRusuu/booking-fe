@@ -1,8 +1,9 @@
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "../utils/utils";
+import { useEffect } from "react";
 
 const toastVariants = cva(
-  `fixed rounded-md shadow-md py-2 px-2 transition-all grid place-items-center`,
+  `fixed z-50 rounded-md shadow-md py-2 px-2 transition-all grid place-items-center`,
   {
     variants: {
       variant: {
@@ -32,6 +33,7 @@ export type ToastProps = VariantProps<typeof toastVariants> & {
   children?: React.ReactNode;
   className?: string;
   message: string;
+  onCLose: () => void;
 };
 
 const Toast: React.FC<ToastProps> = ({
@@ -40,8 +42,18 @@ const Toast: React.FC<ToastProps> = ({
   position,
   className,
   message,
+  onCLose,
 }) => {
-  console.log(variant);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onCLose();
+    }, 3000);
+
+    () => {
+      clearTimeout(timer);
+    };
+  });
+
   return (
     <div className={cn(toastVariants({ variant, size, position, className }))}>
       <span className="text-white">{message}</span>

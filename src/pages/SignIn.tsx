@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { signInTemplate } from "./utilis/signInTemplate";
 import Input from "../components/Input";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CustomError } from "../utils/customFieldError";
 import { signIn as mutationFn } from "../../api-client/apiClient";
 import { useAppContext } from "../context/AppContext";
@@ -15,6 +15,7 @@ export interface IFormDataSignIn {
 const SignIn = () => {
   const { showToast } = useAppContext();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -32,6 +33,7 @@ const SignIn = () => {
     mutationFn,
 
     onSuccess: () => {
+      queryClient.fetchQuery({ queryKey: ["me"] });
       showToast({ message: "You are signed in", type: "success" });
       navigate("/");
     },

@@ -1,4 +1,6 @@
 import { createContext, useContext, useState } from "react";
+import { getUser } from "../../api-client/apiClient";
+import { useQuery } from "@tanstack/react-query";
 
 type ToastMessage = {
   message: string;
@@ -8,8 +10,8 @@ type ToastMessage = {
 
 type TAppContext = {
   toast: Pick<ToastMessage, "message" | "type"> | null;
-  showToast: (toastMessage: ToastMessage) => void;
-  isLoggedIn: false;
+  showToast: (toastMessage: ToastMessage | null) => void;
+  isLoggedIn: boolean;
 };
 
 const AppContext = createContext<TAppContext | undefined>(undefined);
@@ -21,18 +23,20 @@ export const AppContextProvider = ({
 }) => {
   const [toast, setToast] = useState<ToastMessage | null>(null);
 
-  const showToast = (toastMessage: ToastMessage) => {
+  const showToast = (toastMessage: ToastMessage | null) => {
     setToast(toastMessage);
-
-    setTimeout(() => {
-      setToast(null);
-    }, toastMessage.duration || 3000);
   };
+
+  const { isError } = useQuery({
+    queryFn: getUser,
+    queryKey: ["me"],
+    retry: false,
+  });
 
   const contextValue: TAppContext = {
     showToast,
     toast,
-    isLoggedIn: false,
+    isLoggedIn: !isError,
   };
 
   return (
