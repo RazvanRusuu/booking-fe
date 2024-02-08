@@ -32,8 +32,8 @@ const SignIn = () => {
   const { mutate } = useMutation<void, CustomError | Error, IFormDataSignIn>({
     mutationFn,
 
-    onSuccess: () => {
-      queryClient.fetchQuery({ queryKey: ["me"] });
+    onSuccess: async () => {
+      await queryClient.fetchQuery({ queryKey: ["me"] });
       showToast({ message: "You are signed in", type: "success" });
       navigate("/");
     },

@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { register as mutationFn } from "../../api-client/apiClient";
 
 import Input from "../components/Input";
@@ -17,6 +17,7 @@ export interface FormDataRegister {
 }
 
 const Register = () => {
+  const queryClient = useQueryClient();
   const { showToast } = useAppContext();
   const navigate = useNavigate();
   const { mutate } = useMutation<void, CustomError | Error, FormDataRegister>({
@@ -31,7 +32,8 @@ const Register = () => {
 
       showToast({ message: err.message, type: "error" });
     },
-    onSuccess: () => {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["me"] });
       showToast({ message: "Successfully register", type: "success" });
       navigate("/");
     },
