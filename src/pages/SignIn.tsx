@@ -57,7 +57,7 @@ const SignIn = () => {
   return (
     <div className="container mx-auto">
       <form className="" onSubmit={handleSubmit(onSubmit)}>
-        <h2 className="font-bold text-2xl mb-6">Create an account</h2>
+        <h2 className="font-bold text-2xl mb-6">Sign In</h2>
         <div className="flex flex-col gap-6 max-w-72">
           {signInTemplate.map((field) => {
             const name = field.name as keyof IFormDataSignIn;
