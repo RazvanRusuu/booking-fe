@@ -24,6 +24,8 @@ const ManageHotelForm = () => {
     console.log(data);
   };
 
+  console.log(formMethods.formState.errors);
+
   return (
     <FormProvider {...formMethods}>
       <form
@@ -31,6 +33,7 @@ const ManageHotelForm = () => {
         className="xl:max-w-screen-md"
       >
         <DetailsSection />
+        <button>submit</button>
       </form>
     </FormProvider>
   );

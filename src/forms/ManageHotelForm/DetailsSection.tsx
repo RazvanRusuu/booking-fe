@@ -3,7 +3,7 @@ import Input from "../../components/Input";
 
 import { IHotelFormData } from "./ManageHotelForm";
 import ErrorField from "../../components/ErrorField";
-import Select from "../../components/Select";
+import Select from "../../components/HotelSelect";
 
 const DetailsSection = () => {
   const {
@@ -45,13 +45,22 @@ const DetailsSection = () => {
           rows={6}
           className="rounded-md border border-gray-200 py-1 px-2 font- font-semibold focus-visible:outline-gray-400"
           {...register("description", { required: "This field is required" })}
-        >
-          dsadsa
-        </textarea>
+        ></textarea>
         <ErrorField errors={errors.description?.message} />
       </label>
-      <Select options={[{ name: "Name", value: "name" }]} />
-      <button>submit</button>
+      <Select
+        options={[
+          { name: "1", value: "1" },
+          { name: "2", value: "2" },
+          { name: "3", value: "3" },
+          { name: "4", value: "4" },
+          { name: "5", value: "5" },
+        ]}
+        error={errors.starRating?.message}
+        name={"starRating"}
+        placeholder={"Select a rating"}
+        rules={{ required: "This field is required" }}
+      />
     </div>
   );
 };
