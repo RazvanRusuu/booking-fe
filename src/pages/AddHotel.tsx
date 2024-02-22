@@ -1,5 +1,7 @@
+import ManageHotelForm from "../forms/ManageHotelForm/ManageHotelForm";
+
 const AddHotel = () => {
-  return <div>Hotel Form</div>;
+  return <ManageHotelForm />;
 };
 
 export default AddHotel;
