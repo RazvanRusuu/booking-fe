@@ -1,12 +1,13 @@
 import { FormProvider, useForm } from "react-hook-form";
 import DetailsSection from "./DetailsSection";
+import TypeSelection from "./TypesSelection";
 
 export interface IHotelFormData {
   name: string;
   city: string;
   country: string;
   description: string;
-  type: string;
+  type: string[];
   pricePerNight: string;
   starRating: string;
   facilities: string[];
@@ -24,8 +25,6 @@ const ManageHotelForm = () => {
     console.log(data);
   };
 
-  console.log(formMethods.formState.errors);
-
   return (
     <FormProvider {...formMethods}>
       <form
@@ -33,6 +32,7 @@ const ManageHotelForm = () => {
         className="xl:max-w-screen-md"
       >
         <DetailsSection />
+        <TypeSelection />
         <button>submit</button>
       </form>
     </FormProvider>

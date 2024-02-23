@@ -13,28 +13,31 @@ import {
   SelectValue,
 } from "./ui/select";
 import ErrorField from "./ErrorField";
+import { IHotelFormData } from "../forms/ManageHotelForm/ManageHotelForm";
 
 type TOptions = {
   name: string;
   value: string;
 };
 
-export interface ISelect<T extends FieldValues> {
+type IForm = IHotelFormData;
+
+export interface ISelect<IForm extends FieldValues> {
   options: TOptions[];
-  name: Path<T>;
+  name: Path<IForm>;
   error: string | undefined;
   placeholder: string;
   rules: RegisterOptions<FieldValues>;
 }
 
-const Select = <T extends FieldValues>({
+const Select = ({
   name,
   options,
   error,
   placeholder,
   rules,
-}: ISelect<T>) => {
-  const context = useFormContext<T>();
+}: ISelect<IForm>) => {
+  const context = useFormContext<IForm>();
 
   return (
     <>
