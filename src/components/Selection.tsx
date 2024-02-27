@@ -18,7 +18,7 @@ const Selection: React.FC<ISelection> = ({ options, name }) => {
     formState: { errors },
   } = useFormContext<IForm>();
 
-  const hotelTypes = watch(name);
+  const nameValues = watch(name);
 
   return (
     <>
@@ -44,8 +44,8 @@ const Selection: React.FC<ISelection> = ({ options, name }) => {
             className={twMerge(
               clsx(
                 "inline-block w-full text-center rounded-3xl px-2 py-1 bg-slate-300 text-gray-600 font-bold",
-                Array.isArray(hotelTypes) &&
-                  hotelTypes.includes(opt) &&
+                Array.isArray(nameValues) &&
+                  nameValues.includes(opt) &&
                   "bg-gray-700 text-gray-200"
               )
             )}
