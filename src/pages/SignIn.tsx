@@ -46,7 +46,10 @@ const SignIn = () => {
         });
       }
 
-      showToast({ type: "error", message: err.message });
+      showToast({
+        type: "error",
+        message: `Something went wrong ${err.message}`,
+      });
     },
   });
 
