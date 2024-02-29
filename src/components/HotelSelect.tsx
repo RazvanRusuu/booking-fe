@@ -60,8 +60,8 @@ const Select = ({
                   );
                 })}
               </SelectContent>
+              <ErrorField errors={error} />
             </SelectForm>
-            <ErrorField errors={error} />
           </>
         )}
       />

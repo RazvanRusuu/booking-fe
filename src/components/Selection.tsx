@@ -22,9 +22,8 @@ const Selection: React.FC<ISelection> = ({ options, name }) => {
 
   return (
     <>
-      <ErrorField errors={errors.type?.message} />
       {options.map((opt) => (
-        <label key={opt}>
+        <label key={opt} className="justify-self-stretch">
           <input
             type="checkbox"
             value={opt}
@@ -54,6 +53,9 @@ const Selection: React.FC<ISelection> = ({ options, name }) => {
           </span>
         </label>
       ))}
+      <div className="col-span-full">
+        <ErrorField errors={errors.type?.message} />
+      </div>
     </>
   );
 };

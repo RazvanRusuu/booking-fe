@@ -1,7 +1,8 @@
 import { FormProvider, useForm } from "react-hook-form";
 import DetailsSection from "./DetailsSection";
-import TypeSelection from "./TypesSelection";
-import FacilitiesSelection from "./FacilitiesSelection";
+import FacilitiesSection from "./FacilitiesSection";
+import TypeSection from "./TypeSection";
+import GuestSection from "./GuestSection";
 
 export interface IHotelFormData {
   name: string;
@@ -33,8 +34,9 @@ const ManageHotelForm = () => {
         className="xl:max-w-screen-md"
       >
         <DetailsSection />
-        <TypeSelection />
-        <FacilitiesSelection />
+        <TypeSection />
+        <FacilitiesSection />
+        <GuestSection />
         <button>submit</button>
       </form>
     </FormProvider>

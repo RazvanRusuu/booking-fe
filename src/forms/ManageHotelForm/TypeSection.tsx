@@ -1,15 +1,15 @@
 import { hotelTypes } from "../../hotel-config";
 import Selection from "../../components/Selection";
 
-const TypeSelection = () => {
+const TypeSection = () => {
   return (
     <div>
-      <h2 className="text-gray-700 mb-3">Type</h2>
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+      <h2 className="font-bold text-gray-600 mb-3">Type</h2>
+      <div className="grid grid-cols-3 lg:grid-cols-4 gap-2">
         <Selection name="type" options={hotelTypes} />
       </div>
     </div>
   );
 };
 
-export default TypeSelection;
+export default TypeSection;
