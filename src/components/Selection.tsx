@@ -54,7 +54,7 @@ const Selection: React.FC<ISelection> = ({ options, name }) => {
         </label>
       ))}
       <div className="col-span-full">
-        <ErrorField errors={errors.type?.message} />
+        <ErrorField errors={errors?.[name as keyof IForm]?.message} />
       </div>
     </>
   );

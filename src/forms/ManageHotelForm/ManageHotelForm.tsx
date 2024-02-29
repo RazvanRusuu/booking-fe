@@ -3,6 +3,7 @@ import DetailsSection from "./DetailsSection";
 import FacilitiesSection from "./FacilitiesSection";
 import TypeSection from "./TypeSection";
 import GuestSection from "./GuestSection";
+import ImageSection from "./ImageSection";
 
 export interface IHotelFormData {
   name: string;
@@ -37,7 +38,12 @@ const ManageHotelForm = () => {
         <TypeSection />
         <FacilitiesSection />
         <GuestSection />
-        <button>submit</button>
+        <ImageSection />
+        <div className="flex justify-end">
+          <button className="py-2 px-4 bg-blue-600 rounded-md text-white font-bold hover:bg-blue-700 mt-4">
+            Submit
+          </button>
+        </div>
       </form>
     </FormProvider>
   );
