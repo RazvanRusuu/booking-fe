@@ -1,6 +1,3 @@
-import { FormDataRegister } from "../pages/Register";
-import { IFormDataSignIn } from "../pages/SignIn";
-
 type ErrorType = {
   msg: string;
   path: string;

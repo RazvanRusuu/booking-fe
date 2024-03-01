@@ -19,13 +19,40 @@ export interface IHotelFormData {
   childCount: number;
 }
 
-const ManageHotelForm = () => {
+interface IManageHotel {
+  onSave: (data: FormData) => void;
+  isLoading: boolean;
+}
+
+const ManageHotelForm = ({ onSave, isLoading }: IManageHotel) => {
   const formMethods = useForm<IHotelFormData>({
     defaultValues: {},
   });
 
   const onSubmit = (data: IHotelFormData) => {
-    console.log(data);
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("city", data.city);
+    formData.append("country", data.country);
+    formData.append("description", data.description);
+    formData.append("pricePerNight", data.pricePerNight);
+    formData.append("starRating", data.starRating);
+    formData.append("adultCount", data.adultCount.toString());
+    formData.append("childCount", data.childCount.toString());
+
+    data.type.forEach((type, index) => {
+      formData.append(`type[${index}]`, type);
+    });
+
+    data.facilities.forEach((facility, index) => {
+      formData.append(`facilities[${index}]`, facility);
+    });
+
+    // Array.from(data.imageFiles).forEach((imageFile) => {
+    //   formData.append("imageFiles", imageFile);
+    // });
+
+    onSave(formData);
   };
 
   return (
@@ -40,8 +67,11 @@ const ManageHotelForm = () => {
         <GuestSection />
         <ImageSection />
         <div className="flex justify-end">
-          <button className="py-2 px-4 bg-blue-600 rounded-md text-white font-bold hover:bg-blue-700 mt-4">
-            Submit
+          <button
+            className="py-2 px-4 bg-blue-600 rounded-md text-white font-bold hover:bg-blue-700 mt-4 disabled:bg-gray-400"
+            disabled={isLoading}
+          >
+            {isLoading ? "Loading..." : "Save"}
           </button>
         </div>
       </form>

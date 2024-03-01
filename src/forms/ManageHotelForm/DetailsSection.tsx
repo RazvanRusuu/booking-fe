@@ -48,6 +48,13 @@ const DetailsSection = () => {
         ></textarea>
         <ErrorField errors={errors.description?.message} />
       </label>
+      <Input
+        label="Price per Night"
+        name="pricePerNight"
+        register={register}
+        errors={errors.pricePerNight?.message}
+        validation={{ required: "This field is required" }}
+      />
       <Select
         options={[
           { name: "1", value: "1" },

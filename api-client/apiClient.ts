@@ -2,6 +2,12 @@ import { CustomError } from "../src/utils/customFieldError";
 import { FormDataRegister } from "../src/pages/Register";
 import { IFormDataSignIn } from "../src/pages/SignIn";
 
+declare global {
+  interface Response {
+    message: string;
+  }
+}
+
 const API_BASE_URL = import.meta.env.VITE_API_URL as string;
 
 export const register = async (data: FormDataRegister) => {
@@ -75,6 +81,22 @@ export const logout = async () => {
   }
 
   const body = await response.json();
+
+  return body;
+};
+
+export const addHotel = async (data: FormData) => {
+  const response = await fetch(`${API_BASE_URL}/api/my-hotels`, {
+    method: "POST",
+    credentials: "include",
+    body: data,
+  });
+
+  const body = await response.json();
+
+  if (!response.ok) {
+    throw new Error(body.message);
+  }
 
   return body;
 };

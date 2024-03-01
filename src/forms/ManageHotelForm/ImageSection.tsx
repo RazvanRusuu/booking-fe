@@ -20,7 +20,7 @@ const ImageSection = () => {
           {...register("imageFiles", {
             validate: (imageFiles) => {
               const totalLength = imageFiles.length;
-              if (totalLength === 0) {
+              if (totalLength < 0) {
                 return "At least one image should be added";
               }
               if (totalLength > 6) {
