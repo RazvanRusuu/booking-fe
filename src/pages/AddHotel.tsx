@@ -17,7 +17,6 @@ const AddHotel = () => {
   });
 
   const handleSave = (formData: FormData) => {
-    console.log(formData);
     mutate(formData);
   };
 

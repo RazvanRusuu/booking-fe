@@ -48,9 +48,9 @@ const ManageHotelForm = ({ onSave, isLoading }: IManageHotel) => {
       formData.append(`facilities[${index}]`, facility);
     });
 
-    // Array.from(data.imageFiles).forEach((imageFile) => {
-    //   formData.append("imageFiles", imageFile);
-    // });
+    Array.from(data.imageFiles).forEach((imageFile) => {
+      formData.append("imageFiles", imageFile);
+    });
 
     onSave(formData);
   };

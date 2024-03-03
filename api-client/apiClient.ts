@@ -1,6 +1,7 @@
 import { CustomError } from "../src/utils/customFieldError";
 import { FormDataRegister } from "../src/pages/Register";
 import { IFormDataSignIn } from "../src/pages/SignIn";
+import { IHotel } from "../../backend/src/models/hotels";
 
 declare global {
   interface Response {
@@ -96,6 +97,25 @@ export const addHotel = async (data: FormData) => {
 
   if (!response.ok) {
     throw new Error(body.message);
+  }
+
+  return body;
+};
+
+interface IHotelPromise {
+  data: IHotel[];
+  message: string;
+}
+
+export const getMyHotels = async (): Promise<IHotelPromise> => {
+  const response = await fetch(`${API_BASE_URL}/api/my-hotels`, {
+    credentials: "include",
+  });
+
+  const body = await response.json();
+
+  if (!response.ok) {
+    throw new Error(body.message ?? "Something went wrong");
   }
 
   return body;

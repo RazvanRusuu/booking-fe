@@ -9,6 +9,7 @@ import Register from "../pages/Register";
 import SignIn from "../pages/SignIn";
 import ProtectedRoute from "./ProtectedRoute";
 import AddHotel from "../pages/AddHotel";
+import MyHotels from "../pages/MyHotels";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +29,7 @@ export const router = createBrowserRouter(
       <Route path="/sign-in" element={<SignIn />} />
       <Route element={<ProtectedRoute />}>
         <Route path="/add-hotel" element={<AddHotel />}></Route>
+        <Route path="/my-hotels" element={<MyHotels />}></Route>
       </Route>
     </Route>
   )
